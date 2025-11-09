@@ -16,7 +16,9 @@ export interface Webpack {
 
     /** Finds a module using a filter function. */
     getModule<T>(filter: ModuleFilter, options?: SearchOptions<true>): T;
+
     getModule<T>(filter: ModuleFilter, options?: SearchOptions<false>): T[];
+
     getModule<T>(filter: ModuleFilter, options?: SearchOptions<boolean>): T;
 
     /** Finds all modules matching a filter function. */
@@ -61,6 +63,16 @@ export interface Webpack {
 
     /** Finds an internal Store module using the name. */
     getStore<T>(name: string): T;
+
+    /* Maps a module using a filter function. */
+    getMangled<T>(
+        filter: ModuleFilter,
+        mangled: Record<string, ModuleFilter>,
+        options: BaseSearchOptions,
+    ): T;
+
+    /* Returns a list of all internal Stores. */
+    get Stores(): Record<string, object>;
 }
 
 export type WithOptions<T, B extends BaseSearchOptions> = [...T[], B] | T[];
@@ -98,6 +110,7 @@ export interface SearchOptions<F extends boolean> extends BaseSearchOptions {
 
 export interface ModuleQuery extends SearchOptions<boolean> {
     filter: ModuleFilter;
+    map: Record<string, ModuleFilter>;
 }
 
 export type ModuleBulkResult<Q extends ModuleQuery[]> = {
@@ -136,8 +149,11 @@ export interface Filters {
     /** Generates a filter checking for a given `displayName`. */
     byDisplayName(name: string): ModuleFilter;
 
+    /** Generates a filter checking for a given string inside a module */
+    byDisplayName(name: string): ModuleFilter;
+
     /** Generates a filter checking for a specific internal Store name. */
-    byStoreName(name: string): ModuleFilter;
+    bySource(name: string): ModuleFilter;
 
     /** Generates a combined filter from multiple filters. */
     combine(...filters: ModuleFilter[]): ModuleFilter;

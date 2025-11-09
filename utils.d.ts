@@ -34,6 +34,9 @@ export interface Utils {
      */
     className: typeof clsx;
 
+    /** Allows the usage of a chunk id to load any modules */
+    forceLoad(id: string | number): Promise<any[]>
+
     /** Gets a nested value (if it exists) of an object safely. */
     getNestedValue(obj: Record<string, any>, keyPath: string): any;
 
@@ -45,3 +48,4 @@ export interface FindInTreeOptions {
     walkable?: string[] | null;
     ignore?: string[];
 }
+

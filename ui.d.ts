@@ -1,4 +1,5 @@
 import { Setting, SettingGroupProps } from "./components/settinggroup";
+import { ButtonProps } from "./components/button";
 
 export interface UI {
     /** Shows a generic but customizable modal. */
@@ -18,6 +19,12 @@ export interface UI {
         options?: ConfirmationModalOptions,
     ): string;
 
+    /** Shows a native invite modal */
+    showInviteModal(invite: string): void;
+
+    /** Shows a notification in the top right of the screen */
+    showNotification(notification: Notification): NotifcationReturn;
+
     /** Shows a toast towards the bottom of the screen. */
     showToast(content: string, options?: ToastOptions): void;
 
@@ -26,6 +33,7 @@ export interface UI {
 
     /** Opens an Electron dialog. */
     openDialog(options: DialogSaveOptions): Promise<DialogSaveResult>;
+
     openDialog(options: DialogOpenOptions): Promise<DialogOpenResult>;
 
     /** Shows a changelog modal. Customizable with images, videos, colored sections and supports markdown. */
@@ -80,6 +88,7 @@ export interface Tooltip {
 
     /** Force showing the tooltip above the node. */
     showAbove(): void;
+
     /** Force showing the tooltip below the node. */
     showBelow(): void;
 
@@ -90,6 +99,7 @@ export interface Tooltip {
     showRight(): void;
 
     centerHorizontally(): void;
+
     centerVertically(): void;
 }
 
@@ -193,4 +203,33 @@ export interface SettingsPanelOptions {
     ) => void;
     onDrawerToggle?: (categoryId: string, state: boolean) => void;
     getDrawerState?: (categoryId: string, defaultState: boolean) => boolean;
+}
+
+export type NotificationType = "warning" | "error" | "info" | "success";
+
+interface ButtonActions extends ButtonProps {
+    label: string;
+    dontClose?: boolean;
+    dontCloseOnActionIfHoldingShiftKey?: boolean;
+}
+
+export interface NotificationProps {
+    id: string;
+    title?: string;
+    content?: string | React.ReactNode;
+    type?: NotificationType;
+    duration?: number;
+    actions?: ButtonActions[];
+
+    onClose?(): void;
+
+    onClick?(): void;
+
+    icon?: React.ComponentType<any>;
+}
+
+export interface NotifcationReturn {
+    close(): void;
+    isVisible: boolean;
+    id: string;
 }
