@@ -14,6 +14,7 @@ import { Webpack } from "./webpack";
 import { Legacy } from "./legacy";
 import { Components } from "./components";
 import { Logger, BoundLogger } from "./logger";
+import { Commands } from "./commands";
 
 /** BetterDiscord's global plugin API. */
 export interface BdApi extends Legacy {
@@ -55,6 +56,9 @@ export interface BdApi extends Legacy {
 
     /** Utility for interacting with React internals. */
     ReactUtils: ReactUtils;
+
+    /** Utility for registering commands. */
+    Commands: Commands;
 
     /** Utility for user interfaces. */
     UI: UI;
