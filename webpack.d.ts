@@ -153,7 +153,10 @@ export interface Filters {
     byDisplayName(name: string): ModuleFilter;
 
     /** Generates a filter checking for a specific internal Store name. */
-    bySource(name: string): ModuleFilter;
+    byStoreName(name: string): ModuleFilter;
+
+    /** Generates a filter checking for a specific string(s) or regex(s) within a module's source. */
+    bySource(name: string | RegExp): ModuleFilter;
 
     /** Generates a combined filter from multiple filters. */
     combine(...filters: ModuleFilter[]): ModuleFilter;
